@@ -394,6 +394,29 @@ replace admin_name3="Vallée-du-Ntem" if FID==57
 save "S:\CM Data\rug_numbers\tri\tri_03_department.dta"
 clear
 
+/*import CELLAREA and assign admin region*/
+clear
+insheet using "S:\CM Data\rug_numbers\cellarea\cellarea_02_province.csv", comma clear
+ren fid_ FID
+drop count range std sum variety majority minority median
+gen provcm="bob"
+replace provcm="Adamoua" if FID==0
+replace provcm="Centre" if FID==1
+replace provcm="Est" if FID==2
+replace provcm="Extrème Nord" if FID==3
+replace provcm="Littoral" if FID==4
+replace provcm="Nord Ouest" if FID==5
+replace provcm="Nord" if FID==6
+replace provcm="Ouest" if FID==7
+replace provcm="Sud Ouest" if FID==8
+replace provcm="Sud" if FID==9
+ren area carea_02_area
+ren min carea_02_min
+ren max carea_02_max
+ren mean carea_02_mean
+save "S:\CM Data\rug_numbers\cellarea\cellarea_02_province.dta"
+clear
+
 /*clean TRI data round 2*/
 clear
 use "S:\CM Data\rug_numbers\tri\tri_02_province.dta" 
@@ -417,4 +440,47 @@ drop admin_level2 admin_level3 count range std sum variety majority minority med
 save "S:\CM Data\rug_numbers\tri\tri_03_department.dta", replace
 clear
 
-/*clean IPUMS
+/*for province level... make sure IPUMS and GADM names are the same, use IPUMS as base*/
+use "S:\CM Data\rug_numbers\tri\tri_02_province.dta" 
+gen bob=.
+replace bob=1 if provcm=="Adamaoua"
+replace provcm="Adamoua" if bob==1
+replace bob=2 if provcm=="Extrême-Nord"
+replace provcm="Extrème Nord" if bob==2
+replace bob=3 if provcm=="Nord-Ouest"
+replace provcm="Nord Ouest" if bob==3
+replace bob=4 if provcm=="Sud-Ouest"
+replace provcm="Sud Ouest" if bob==4
+drop bob
+save "S:\CM Data\rug_numbers\tri\tri_02_province.dta", replace
+clear
+
+clear
+use "S:\CM Data\distance\point_dist\GADM_02_province.dta" 
+gen bob=.
+replace bob=1 if provcm=="Adamaoua"
+replace provcm="Adamoua" if bob==1
+replace bob=2 if provcm=="Extrême-Nord"
+replace provcm="Extrème Nord" if bob==2
+replace bob=3 if provcm=="Nord-Ouest"
+replace provcm="Nord Ouest" if bob==3
+replace bob=4 if provcm=="Sud-Ouest"
+replace provcm="Sud Ouest" if bob==4
+drop bob
+save "S:\CM Data\distance\point_dist\GADM_02_province.dta" , replace
+clear
+
+/*merge province data to province level in IPUMS (02_....IPUMS.dta)*/
+use "S:\CM Data\IPUMS\02_ipumsi_00004.dta" 
+gen bob=.
+replace bob=1 if provcm=="ExtrÃ¨me Nord"
+replace provcm="Extrème Nord" if bob==1
+drop bob
+merge m:1 provcm using "S:\CM Data\rug_numbers\tri\tri_02_province.dta"
+drop _merge FID
+merge m:1 provcm using "S:\CM Data\rug_numbers\cellarea\cellarea_02_province.dta"
+drop FID _merge
+drop tri_02_min tri_02_max carea_02_min carea_02_max
+save "S:\CM Data\IPUMS\02_ipumsi_00004.dta", replace
+clear
+
