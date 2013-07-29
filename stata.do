@@ -481,6 +481,17 @@ drop _merge FID
 merge m:1 provcm using "S:\CM Data\rug_numbers\cellarea\cellarea_02_province.dta"
 drop FID _merge
 drop tri_02_min tri_02_max carea_02_min carea_02_max
+gen IPUMScode=.
+replace IPUMScode=1 if provcm=="Adamoua"
+replace IPUMScode=2 if provcm=="Centre"
+replace IPUMScode=3 if provcm=="Est"
+replace IPUMScode=4 if provcm=="Extrème Nord"
+replace IPUMScode=5 if provcm=="Littoral"
+replace IPUMScode=6 if provcm=="Nord"
+replace IPUMScode=7 if provcm=="Nord Ouest"
+replace IPUMScode=8 if provcm=="Ouest"
+replace IPUMScode=9 if provcm=="Sud"
+replace IPUMScode=10 if provcm=="Sud Ouest"
 save "S:\CM Data\IPUMS\02_ipumsi_00004.dta", replace
 clear
 
