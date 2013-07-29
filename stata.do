@@ -180,3 +180,153 @@ replace admin_name2="Sud" if near_fid==55
 replace admin_name2="Sud" if near_fid==56
 replace admin_name2="Sud" if near_fid==57
 save "S:\CM Data\distance\point_dist\GADM_03_department.dta"
+clear
+
+/*import TRI and assign to admin region*/
+clear
+insheet using "S:\CM Data\rug_numbers\tri\tri_01_country.csv", comma clear
+ren fid_ FID
+gen admin_level="country"
+gen admin_name="Cameroon"
+save "S:\CM Data\rug_numbers\tri\tri_01_country.dta"
+clear
+insheet using "S:\CM Data\rug_numbers\tri\tri_02_province.csv", comma clear
+ren fid_ FID
+gen admin_level2="province"
+gen admin_name2="bob"
+replace admin_name2="Adamaoua" if FID==0
+replace admin_name2="Centre" if FID==1
+replace admin_name2="Est" if FID==2
+replace admin_name2="Extrême-Nord" if FID==3
+replace admin_name2="Littoral" if FID==4
+replace admin_name2="Nord-Ouest" if FID==5
+replace admin_name2="Nord" if FID==6
+replace admin_name2="Ouest" if FID==7
+replace admin_name2="Sud-Ouest" if FID==8
+replace admin_name2="Sud" if FID==9
+save "S:\CM Data\rug_numbers\tri\tri_02_province.dta"
+clear
+insheet using "S:\CM Data\rug_numbers\tri\tri_03_department.csv", comma clear
+ren fid_ FID
+gen admin_level2="province"
+gen admin_name2="bob"
+replace admin_name2="Adamaoua" if FID==0
+replace admin_name2="Adamaoua" if FID==1
+replace admin_name2="Adamaoua" if FID==2
+replace admin_name2="Adamaoua" if FID==3
+replace admin_name2="Adamaoua" if FID==4
+replace admin_name2="Centre" if FID==5
+replace admin_name2="Centre" if FID==6
+replace admin_name2="Centre" if FID==7
+replace admin_name2="Centre" if FID==8
+replace admin_name2="Centre" if FID==9
+replace admin_name2="Centre" if FID==10
+replace admin_name2="Centre" if FID==11
+replace admin_name2="Centre" if FID==12
+replace admin_name2="Centre" if FID==13
+replace admin_name2="Centre" if FID==14
+replace admin_name2="Est" if FID==15
+replace admin_name2="Est" if FID==16
+replace admin_name2="Est" if FID==17
+replace admin_name2="Est" if FID==18
+replace admin_name2="Extrême-Nord" if FID==19
+replace admin_name2="Extrême-Nord" if FID==20
+replace admin_name2="Extrême-Nord" if FID==21
+replace admin_name2="Extrême-Nord" if FID==22
+replace admin_name2="Extrême-Nord" if FID==23
+replace admin_name2="Extrême-Nord" if FID==24
+replace admin_name2="Littoral" if FID==25
+replace admin_name2="Littoral" if FID==26
+replace admin_name2="Littoral" if FID==27
+replace admin_name2="Littoral" if FID==28
+replace admin_name2="Nord-Ouest" if FID==29
+replace admin_name2="Nord-Ouest" if FID==30
+replace admin_name2="Nord-Ouest" if FID==31
+replace admin_name2="Nord-Ouest" if FID==32
+replace admin_name2="Nord-Ouest" if FID==33
+replace admin_name2="Nord-Ouest" if FID==34
+replace admin_name2="Nord-Ouest" if FID==35
+replace admin_name2="Nord" if FID==36
+replace admin_name2="Nord" if FID==37
+replace admin_name2="Nord" if FID==38
+replace admin_name2="Nord" if FID==39
+replace admin_name2="Ouest" if FID==40
+replace admin_name2="Ouest" if FID==41
+replace admin_name2="Ouest" if FID==42
+replace admin_name2="Ouest" if FID==43
+replace admin_name2="Ouest" if FID==44
+replace admin_name2="Ouest" if FID==45
+replace admin_name2="Ouest" if FID==46
+replace admin_name2="Ouest" if FID==47
+replace admin_name2="Sud-Ouest" if FID==48
+replace admin_name2="Sud-Ouest" if FID==49
+replace admin_name2="Sud-Ouest" if FID==50
+replace admin_name2="Sud-Ouest" if FID==51
+replace admin_name2="Sud-Ouest" if FID==52
+replace admin_name2="Sud-Ouest" if FID==53
+replace admin_name2="Sud" if FID==54
+replace admin_name2="Sud" if FID==55
+replace admin_name2="Sud" if FID==56
+replace admin_name2="Sud" if FID==57
+gen admin_level3="department"
+gen admin_name3="bob"
+replace admin_name3="Djerem" if FID==0
+replace admin_name3="Faro-Deo" if FID==1
+replace admin_name3="Mayo-Banyo" if FID==2
+replace admin_name3="Mbéré" if FID==3
+replace admin_name3="Vina" if FID==4
+replace admin_name3="Haute-Sanaga" if FID==5
+replace admin_name3="Lekié" if FID==6
+replace admin_name3="Mbam-et-Inoubou" if FID==7
+replace admin_name3="Mbam-et-Kim" if FID==8
+replace admin_name3="Mefou-et-Afamba" if FID==9
+replace admin_name3="Mefou-et-Akono" if FID==10
+replace admin_name3="Mfoundi" if FID==11
+replace admin_name3="Nyong-et-Mfoumou" if FID==12
+replace admin_name3="Nyong-et-Soo" if FID==13
+replace admin_name3="Nyong et Kéllé" if FID==14
+replace admin_name3="Boumba-et-Ngoko" if FID==15
+replace admin_name3="Haut-Nyong" if FID==16
+replace admin_name3="Kadey" if FID==17
+replace admin_name3="Lom-et-Djerem" if FID==18
+replace admin_name3="Diamaré" if FID==19
+replace admin_name3="Logone-et-Chari" if FID==20
+replace admin_name3="Mayo-Danay" if FID==21
+replace admin_name3="Mayo-Kani" if FID==22
+replace admin_name3="Mayo-Sava" if FID==23
+replace admin_name3="Mayo-Tsanaga" if FID==24
+replace admin_name3="Moungo" if FID==25
+replace admin_name3="Nkam" if FID==26
+replace admin_name3="Sanaga-Maritime" if FID==27
+replace admin_name3="Wouri" if FID==28
+replace admin_name3="Boyo" if FID==29
+replace admin_name3="Bui" if FID==30
+replace admin_name3="Donga-Mantung" if FID==31
+replace admin_name3="Menchum" if FID==32
+replace admin_name3="Mezam" if FID==33
+replace admin_name3="Momo" if FID==34
+replace admin_name3="Ngo-Ketunjia" if FID==35
+replace admin_name3="Bénoué" if FID==36
+replace admin_name3="Faro" if FID==37
+replace admin_name3="Mayo-Louti" if FID==38
+replace admin_name3="Mayo-Rey" if FID==39
+replace admin_name3="Bamboutos" if FID==40
+replace admin_name3="Haut-Nkam" if FID==41
+replace admin_name3="Hauts-Plateaux" if FID==42
+replace admin_name3="Koung-Khi" if FID==43
+replace admin_name3="Menoua" if FID==44
+replace admin_name3="Mifi" if FID==45
+replace admin_name3="Ndé" if FID==46
+replace admin_name3="Noun" if FID==47
+replace admin_name3="Fako" if FID==48
+replace admin_name3="Koupé-Manengouba" if FID==49
+replace admin_name3="Lebialem" if FID==50
+replace admin_name3="Manyu" if FID==51
+replace admin_name3="Meme" if FID==52
+replace admin_name3="Ndian" if FID==53
+replace admin_name3="Dja-et-Lobo" if FID==54
+replace admin_name3="Mvila" if FID==55
+replace admin_name3="Océan" if FID==56
+replace admin_name3="Vallée-du-Ntem" if FID==57
+save "S:\CM Data\rug_numbers\tri\tri_03_department.dta"
+clear
