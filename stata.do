@@ -1,10 +1,35 @@
-use "C:\Users\tjung\Dropbox\Toni - CM Paper\IPUMS\ipumsi_00004.dta" 
-drop cntry
-drop wthh
-drop sewage fuelck trash marst marstd MGYRS1 MIGCM1 MIGCM2 MIGCM3
+/*clean IPUMS-I data... round 1*/
+use "C:\Users\tjung\Dropbox\Toni - CM Paper\IPUMS\01_ipumsi_00004.dta" 
+drop cntry wthh sewage fuelck trash marst marstd MGYRS1 MIGCM1 MIGCM2 MIGCM3related relate persons
 drop if age>30
+keep if age>9
 sort age
-save "C:\Users\tjung\Dropbox\Toni - CM Paper\IPUMS\ipumsi_00004.dta", replace
+save "C:\Users\tjung\Dropbox\Toni - CM Paper\IPUMS\01_ipumsi_00004.dta", replace
+clear
+
+use "C:\Users\tjung\Dropbox\Toni - CM Paper\IPUMS\02_ipumsi_00004.dta" 
+drop cntry wthh sewage fuelck trash marst marstd MGYRS1 MIGCM1 MIGCM2 MIGCM3related relate persons
+drop if age>30
+keep if age>9
+sort age
+save "C:\Users\tjung\Dropbox\Toni - CM Paper\IPUMS\02_ipumsi_00004.dta", replace
+
+clear
+use "C:\Users\tjung\Dropbox\Toni - CM Paper\IPUMS\03_ipumsi_00004.dta" 
+drop cntry wthh sewage fuelck trash marst marstd MGYRS1 MIGCM1 MIGCM2 MIGCM3related relate persons
+drop if age>30
+keep if age>9
+sort age
+save "C:\Users\tjung\Dropbox\Toni - CM Paper\IPUMS\03_ipumsi_00004.dta", replace
+
+clear
+use "C:\Users\tjung\Dropbox\Toni - CM Paper\IPUMS\04_ipumsi_00004.dta" 
+drop cntry wthh sewage fuelck trash marst marstd MGYRS1 MIGCM1 MIGCM2 MIGCM3related relate persons
+drop if age>30
+keep if age>9
+sort age
+save "C:\Users\tjung\Dropbox\Toni - CM Paper\IPUMS\04_ipumsi_00004.dta", replace
+clear
 
 /*import point distance measures and assign to an admin region*/
 clear
@@ -329,4 +354,27 @@ replace admin_name3="Mvila" if FID==55
 replace admin_name3="Océan" if FID==56
 replace admin_name3="Vallée-du-Ntem" if FID==57
 save "S:\CM Data\rug_numbers\tri\tri_03_department.dta"
+clear
+
+/*clean TRI data round 2*/
+clear
+use "S:\CM Data\rug_numbers\tri\tri_02_province.dta" 
+ren admin_name2 provcm
+ren area tri_02_area
+ren min tri_02_min
+ren max tri_02_max
+ren mean tri_02_mean
+drop admin_level2 count range std sum variety majority minority median
+save "S:\CM Data\rug_numbers\tri\tri_02_province.dta", replace
+clear
+
+use "S:\CM Data\rug_numbers\tri\tri_03_department.dta"
+ren admin_name2 provcm
+ren admin_name3 deptcm
+ren area tri_03_area
+ren min tri_03_min
+ren max tri_03_max
+ren mean tri_03_mean
+drop admin_level2 admin_level3 count range std sum variety majority minority median
+save "S:\CM Data\rug_numbers\tri\tri_03_department.dta", replace
 clear
