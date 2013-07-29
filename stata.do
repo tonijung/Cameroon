@@ -4,6 +4,15 @@ drop cntry wthh sewage fuelck trash marst marstd MGYRS1 MIGCM1 MIGCM2 MIGCM3rela
 drop if age>30
 keep if age>9
 sort age
+decode provcm, gen(bob)
+drop provcm
+ren bob provcm
+decode deptcm, gen(bob)
+drop deptcm
+ren bob deptcm
+decode arrndcm, gen(bob)
+drop arrndcm
+ren bob arrndcm
 save "C:\Users\tjung\Dropbox\Toni - CM Paper\IPUMS\01_ipumsi_00004.dta", replace
 clear
 
@@ -12,6 +21,15 @@ drop cntry wthh sewage fuelck trash marst marstd MGYRS1 MIGCM1 MIGCM2 MIGCM3rela
 drop if age>30
 keep if age>9
 sort age
+decode provcm, gen(bob)
+drop provcm
+ren bob provcm
+decode deptcm, gen(bob)
+drop deptcm
+ren bob deptcm
+decode arrndcm, gen(bob)
+drop arrndcm
+ren bob arrndcm
 save "C:\Users\tjung\Dropbox\Toni - CM Paper\IPUMS\02_ipumsi_00004.dta", replace
 
 clear
@@ -20,6 +38,15 @@ drop cntry wthh sewage fuelck trash marst marstd MGYRS1 MIGCM1 MIGCM2 MIGCM3rela
 drop if age>30
 keep if age>9
 sort age
+decode provcm, gen(bob)
+drop provcm
+ren bob provcm
+decode deptcm, gen(bob)
+drop deptcm
+ren bob deptcm
+decode arrndcm, gen(bob)
+drop arrndcm
+ren bob arrndcm
 save "C:\Users\tjung\Dropbox\Toni - CM Paper\IPUMS\03_ipumsi_00004.dta", replace
 
 clear
@@ -28,6 +55,15 @@ drop cntry wthh sewage fuelck trash marst marstd MGYRS1 MIGCM1 MIGCM2 MIGCM3rela
 drop if age>30
 keep if age>9
 sort age
+decode provcm, gen(bob)
+drop provcm
+ren bob provcm
+decode deptcm, gen(bob)
+drop deptcm
+ren bob deptcm
+decode arrndcm, gen(bob)
+drop arrndcm
+ren bob arrndcm
 save "C:\Users\tjung\Dropbox\Toni - CM Paper\IPUMS\04_ipumsi_00004.dta", replace
 clear
 
@@ -59,7 +95,6 @@ replace dam="Lagdo" if input_fid==6
 replace dam="Chidifi" if input_fid==7
 replace dam="Mokolo" if input_fid==8
 replace dam="Maga" if input_fid==9
-gen admin_level2="province"
 gen admin_name2="bob"
 replace admin_name2="Adamaoua" if near_fid==0
 replace admin_name2="Centre" if near_fid==1
@@ -71,7 +106,10 @@ replace admin_name2="Nord" if near_fid==6
 replace admin_name2="Ouest" if near_fid==7
 replace admin_name2="Sud-Ouest" if near_fid==8
 replace admin_name2="Sud" if near_fid==9
+ren admin_name2 provcm
 save "S:\CM Data\distance\point_dist\GADM_02_province.dta"
+clear
+
 insheet using "S:/CM Data/distance/point_dist/GADM_03_department.csv", comma clear
 gen dam="bob"
 replace dam="Mopfou" if input_fid==0
@@ -84,8 +122,6 @@ replace dam="Lagdo" if input_fid==6
 replace dam="Chidifi" if input_fid==7
 replace dam="Mokolo" if input_fid==8
 replace dam="Maga" if input_fid==9
-gen admin_level2="province"
-gen admin_level3="department"
 gen admin_name3="bob"
 replace admin_name3="Djerem" if near_fid==0
 replace admin_name3="Faro-Deo" if near_fid==1
@@ -204,6 +240,8 @@ replace admin_name2="Sud" if near_fid==54
 replace admin_name2="Sud" if near_fid==55
 replace admin_name2="Sud" if near_fid==56
 replace admin_name2="Sud" if near_fid==57
+ren admin_name2 provcm
+ren admin_name3 deptcm
 save "S:\CM Data\distance\point_dist\GADM_03_department.dta"
 clear
 
@@ -378,3 +416,5 @@ ren mean tri_03_mean
 drop admin_level2 admin_level3 count range std sum variety majority minority median
 save "S:\CM Data\rug_numbers\tri\tri_03_department.dta", replace
 clear
+
+/*clean IPUMS
