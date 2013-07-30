@@ -83,6 +83,9 @@ replace dam="Mokolo" if input_fid==8
 replace dam="Maga" if input_fid==9
 gen admin_level="country"
 save "S:\CM Data\distance\point_dist\GADM_01_country.dta"
+clear
+
+clear
 insheet using "S:/CM Data/distance/point_dist/GADM_02_province.csv", comma clear
 gen dam="bob"
 replace dam="Mopfou" if input_fid==0
@@ -107,9 +110,22 @@ replace admin_name2="Ouest" if near_fid==7
 replace admin_name2="Sud-Ouest" if near_fid==8
 replace admin_name2="Sud" if near_fid==9
 ren admin_name2 provcm
-save "S:\CM Data\distance\point_dist\GADM_02_province.dta"
+drop input_fid near_fid
+gen w_distance=.
+replace w_distance=( distance *0/729) if dam=="Bamendjin"
+replace w_distance=( distance *0/729) if dam=="Chidifi"
+replace w_distance=( distance *263/729) if dam=="Edea"
+replace w_distance=( distance *72/729) if dam=="Lagdo"
+replace w_distance=( distance *0/729) if dam=="Maga"
+replace w_distance=( distance *0/729) if dam=="Mape"
+replace w_distance=( distance *0/729) if dam=="Mbakaou"
+replace w_distance=( distance *0/729) if dam=="Mokolo"
+replace w_distance=( distance *0/729) if dam=="Mopfou"
+replace w_distance=( distance *394/729) if dam=="Song Loulou"
+save "S:\CM Data\distance\point_dist\GADM_02_province.dta", replace
 clear
 
+clear
 insheet using "S:/CM Data/distance/point_dist/GADM_03_department.csv", comma clear
 gen dam="bob"
 replace dam="Mopfou" if input_fid==0
