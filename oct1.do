@@ -103,7 +103,7 @@ forval i=1/62{
 gen labfr=empnum+unempnum
 
 /*departmental UNemployment rate*/
-gen umemp_rt=unempnum/(labfr)*100
+gen unemp_rt=unempnum/(labfr)*100
 
 /*departmental employment rate*/
 gen emp_rt=empnum/labfr*100
