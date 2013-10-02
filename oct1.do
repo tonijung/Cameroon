@@ -100,7 +100,7 @@ forval i=1/62{
 }
 
 /*total labor force*/
-gen labfr=empnum+unempnum
+gen laborforce=empnum+unempnum
 
 /*departmental UNemployment rate*/
 gen unemp_rt=unempnum/(labfr)*100
