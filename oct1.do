@@ -15,9 +15,9 @@ replace prov="Sud-Ouest" if prov_code==10
 replace prov="Sud" if prov_code==9
 gen dept_code=deptcm
 drop deptcm
-drop dept_code==63
-drop dept_code==59
-drop dept_code==61
+drop if dept_code==62 /*Bamoun in IPUMS, not present in GADM*/
+drop if dept_code==59 /*Kaele in IPUMS, not present in GADM*/
+drop if dept_code==61 /*Margui-Wandala in IPUMS, not present in GADM*/
 gen dept="null"
 replace dept="Adamaoua" if dept_code==60
 replace dept="Bamboutos" if dept_code==41
@@ -80,47 +80,70 @@ replace dept="Vina" if dept_code==5
 replace dept="Wouri" if dept_code==29
 drop provcm_name
 
-/*how many employed per department?*/
+/*how many employed per department per year?*/
 gen dept_empnum=.
-forval i=1/62{
-  count if empstat==1 & dept_code==`i'
-  replace empnum=r(N) if dept_code==`i'
+foreach j in 1976 1987 2005{
+	forval i=1/62{
+  		count if empstat==1 & dept_code==`i' & year==`j'
+  		replace dept_empnum=r(N) if dept_code==`i' & year==`j'
+}
 }
 
-/*how many unemployed per department?*/
+
+/*how many unemployed per department per year?*/
 gen dept_unempnum=.
-forval i=1/62{
-	count if empstat==2 & dept_code==`i'
-	replace unempnum=r(N) if dept_code==`i'
+foreach j in 1976 1987 2005{
+	forval i=1/62{
+		count if empstat==2 & dept_code==`i' & year==`j'
+		replace dept_unempnum=r(N) if dept_code==`i' & year==`j'
+}
 }
 
-/*total dept labor force*/
-gen dept_laborforce=empnum+unempnum
+/*total dept labor force per department per year*/
+gen dept_laborforce=.
+foreach j in 1976 1987 2005{
+	replace dept_laborforce=dept_empnum+dept_unempnum if year==`j'
+}
 
-/*departmental UNemployment rate*/
-gen dept_unemp_rt=unempnum/(labfr)*100
+/*departmental UNemployment rate per year*/
+gen dept_unemp_rt=.
+foreach j in 1976 1987 2005{
+	replace dept_unemp_rt=dept_unempnum/dept_laborforce*100 if year==`j'
+}
 
 /*departmental employment rate*/
-gen dept_emp_rt=empnum/labfr*100
+gen dept_emp_rt=.
+foreach j in 1976 1987 2005{
+	replace dept_emp_rt=dept_empnum/dept_laborforce*100 if year==`j'
+}
 
-/*how many individuals in department?*/
-by dept_code: gen individ_num=_n /*gives each individual a unique number per dept*/
-by dept_code: gen dept_pop=_N /*finds total number of observations*/
+/*department population - how many individuals in department per year?*/
+sort dept_code year
+by dept_code year: gen individ_num=_n /*gives each individual a unique number per dept per year*/
+by dept_code year: gen dept_pop=_N /*finds total number of observations*/
 drop individ_num
 
 /*individual electricity dummy*/
 gen elec_dum=electrc if electrc==1
 
-/*how many has electricity in department?*/
+/*how many has electricity in department per year?*/
 gen dept_elec_num=.
-forval i=1/62{
-	count if elec_dum==1 & dept_code==`i'
-	replace dept_electrc=r(N) if dept_code==`i'
+foreach j in 1976 1987 2005{
+	forval i=1/62{
+		count if elec_dum==1 & dept_code==`i' & year==`j'
+		replace dept_elec_num=r(N) if dept_code==`i' & year==`j'
+}
 }
 
-/*department - electrification rate*/
-gen dept_electrc_rt=dept_elec_num/dept_pop*100
+/*department - electrification rate per year*/
+gen dept_elec_rt=.
+foreach j in 1976 1987 2005{
+	replace dept_elec_rt=dept_elec_num/dept_pop*100 if year==`j'
+}
 
 
+/*next add ruggedness and weighted distance from dam which is time invariant*/
+
+/*regressions yo!*/
 
 
