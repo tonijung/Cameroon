@@ -80,30 +80,47 @@ replace dept="Vina" if dept_code==5
 replace dept="Wouri" if dept_code==29
 drop provcm_name
 
-
-/*electricity dummy*/
-gen elec_dum=electrc if electrc==1
-
-
 /*how many employed per department?*/
-gen empnum=.
+gen dept_empnum=.
 forval i=1/62{
   count if empstat==1 & dept_code==`i'
   replace empnum=r(N) if dept_code==`i'
 }
 
 /*how many unemployed per department?*/
-gen unempnum=.
+gen dept_unempnum=.
 forval i=1/62{
 	count if empstat==2 & dept_code==`i'
 	replace unempnum=r(N) if dept_code==`i'
 }
 
-/*total labor force*/
-gen laborforce=empnum+unempnum
+/*total dept labor force*/
+gen dept_laborforce=empnum+unempnum
 
 /*departmental UNemployment rate*/
-gen unemp_rt=unempnum/(labfr)*100
+gen dept_unemp_rt=unempnum/(labfr)*100
 
 /*departmental employment rate*/
-gen emp_rt=empnum/labfr*100
+gen dept_emp_rt=empnum/labfr*100
+
+/*how many individuals in department?*/
+by dept_code: gen individ_num=_n /*gives each individual a unique number per dept*/
+by dept_code: gen dept_pop=_N /*finds total number of observations*/
+drop individ_num
+
+/*individual electricity dummy*/
+gen elec_dum=electrc if electrc==1
+
+/*how many has electricity in department?*/
+gen dept_elec_num=.
+forval i=1/62{
+	count if elec_dum==1 & dept_code==`i'
+	replace dept_electrc=r(N) if dept_code==`i'
+}
+
+/*department - electrification rate*/
+gen dept_electrc_rt=dept_elec_num/dept_pop*100
+
+
+
+
