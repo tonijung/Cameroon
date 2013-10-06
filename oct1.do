@@ -85,10 +85,25 @@ drop provcm_name
 merge m:1 dept using "S:\CM Data\ruggedness\dta\tri_03_department.dta"
 drop _merge
 
-/*add weighted distance from dam*/
+/*add distance from dam - NOTE unit is decimal degrees*/
 gen key=dept+"_"+prov
 merge m:m key using "S:\CM Data\distance\GADM\point_dist\GADM_03_department.dta"
-drop _merge
+ren distance dist
+drop _merge key
+
+/*generate weighted distance*/
+gen wdist=.
+replace wdist=0*dist if dam=="Bamendjin"
+replace wdist=0*dist if dam=="Chidifi"
+replace wdist=0.36076817558299*dist if dam=="Edea"
+replace wdist=0.0987654320987654*dist if dam=="Lagdo"
+replace wdist=0*dist if dam=="Maga"
+replace wdist=0*dist if dam=="Mape"
+replace wdist=0*dist if dam=="Mbakaou"
+replace wdist=0*dist if dam=="Mokolo"
+replace wdist=0*dist if dam=="Mopfou"
+replace wdist=0.540466392318244*dist if dam=="Song Loulou"
+
 
 /*how many employed per department per year?*/
 gen dept_empnum=.
