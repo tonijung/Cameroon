@@ -18,6 +18,7 @@ drop deptcm
 drop if dept_code==62 /*Bamoun in IPUMS, not present in GADM*/
 drop if dept_code==59 /*Kaele in IPUMS, not present in GADM*/
 drop if dept_code==61 /*Margui-Wandala in IPUMS, not present in GADM*/
+drop if dept_code==60 /*Adamaoua, Nord in IPUMS, not present in GADM*/
 gen dept="null"
 replace dept="Adamaoua" if dept_code==60
 replace dept="Bamboutos" if dept_code==41
@@ -79,6 +80,15 @@ replace dept="Vallée-du-Ntem" if dept_code==52
 replace dept="Vina" if dept_code==5
 replace dept="Wouri" if dept_code==29
 drop provcm_name
+
+/*add Terrain Ruggedness Index for dept - TRI*/
+merge m:1 dept using "S:\CM Data\ruggedness\dta\tri_03_department.dta"
+drop _merge
+
+/*add weighted distance from dam*/
+gen key=dept+"_"+prov
+merge m:m key using "S:\CM Data\distance\GADM\point_dist\GADM_03_department.dta"
+drop _merge
 
 /*how many employed per department per year?*/
 gen dept_empnum=.
