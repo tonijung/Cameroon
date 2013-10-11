@@ -166,9 +166,47 @@ foreach j in 1976 1987 2005{
 	replace dept_elec_rt=dept_elec_num/dept_pop*100 if year==`j'
 }
 
-
 /*next add ruggedness and weighted distance from dam which is time invariant*/
 
+/*how many people in dept are literate?*/
+gen dept_lit_num=.
+foreach j in 1976 1987 2005{
+	forval i=1/62{
+		count if lit==2 & dept_code==`i' & year==`j'
+		replace dept_lit_num=r(N) if dept_code==`i' & year==`j'
+}
+}
+
+/*department - literacy rate*/
+gen dept_lit_rt=.
+foreach j in 1976 1987 2005{
+	replace dept_lit_rt=dept_lit_num/dept_pop*100 if year==`j'
+}
+
+/*COLLAPSE TO DEPARTMENT LEVEL DATASET*/
+tostring dept_code, g(str_dept_code)
+tostring prov_code, g(str_prov_code)
+tostring year, g(str_year)
+gen bob=str_year+";"+str_dept_code+";"+dept+";"+str_prov_code+";"+prov+";"+dam
+collapse (mean) empnum=dept_empnum unempnum=dept_unempnum labforce=dept_laborforce emp_rt=dept_emp_rt unemp_rt=dept_unemp_rt elecnum=dept_elec_num elec_rt=dept_elec_rt rug=dept_tri dist=dept_dist wdist=dept_wdist litnum=dept_lit_num lit_rt=dept_lit_rt, by(bob)
+split bob, p(;)
+gen year=real(bob1)
+gen dept_code=real(bob2)
+ren bob3 dept
+gen prov_code=real(bob4)
+ren bob5 prov
+ren bob6 dam
+drop bob bob1 bob2 bob4
+reorder year dept dept_code prov prov_code emp_rt elec_rt rug wdist
+sort year dept_code prov_code
+save "S:\CM Data\IPUMS\collapsed_ipumsi_00004.dta", replace
+
 /*regressions yo!*/
+
+
+
+/*OTHER VARIABLES TO CONSIDER ADDING...*/
+
+/*dept - average years of schooling*/
 
 
