@@ -79,31 +79,18 @@ replace dept="Sanaga-Maritime" if dept_code==28
 replace dept="Vallée-du-Ntem" if dept_code==52
 replace dept="Vina" if dept_code==5
 replace dept="Wouri" if dept_code==29
-drop provcm_name
+/*drop provcm_name*/
 
 /*add Terrain Ruggedness Index for dept - TRI*/
 merge m:1 dept using "S:\CM Data\ruggedness\dta\tri_03_department.dta"
+ren tri_dept dept_tri
+drop FID
 drop _merge
 
-/*add distance from dam - NOTE unit is decimal degrees*/
-gen key=dept+"_"+prov
-merge m:m key using "S:\CM Data\distance\GADM\point_dist\GADM_03_department.dta"
-ren distance dist
+/*add weighted distance from dam - NOTE unit is decimal degrees*/
+gen key=dept+";"+prov
+merge m:m key using "S:\CM Data\IPUMS\dept_wdist.dta"
 drop _merge key
-
-/*generate weighted distance*/
-gen wdist=.
-replace wdist=0*dist if dam=="Bamendjin"
-replace wdist=0*dist if dam=="Chidifi"
-replace wdist=0.36076817558299*dist if dam=="Edea"
-replace wdist=0.0987654320987654*dist if dam=="Lagdo"
-replace wdist=0*dist if dam=="Maga"
-replace wdist=0*dist if dam=="Mape"
-replace wdist=0*dist if dam=="Mbakaou"
-replace wdist=0*dist if dam=="Mokolo"
-replace wdist=0*dist if dam=="Mopfou"
-replace wdist=0.540466392318244*dist if dam=="Song Loulou"
-
 
 /*how many employed per department per year?*/
 gen dept_empnum=.
@@ -166,8 +153,6 @@ foreach j in 1976 1987 2005{
 	replace dept_elec_rt=dept_elec_num/dept_pop*100 if year==`j'
 }
 
-/*next add ruggedness and weighted distance from dam which is time invariant*/
-
 /*how many people in dept are literate?*/
 gen dept_lit_num=.
 foreach j in 1976 1987 2005{
@@ -182,23 +167,41 @@ gen dept_lit_rt=.
 foreach j in 1976 1987 2005{
 	replace dept_lit_rt=dept_lit_num/dept_pop*100 if year==`j'
 }
+save "S:\CM Data\IPUMS\ipumsi_00004.dta", replace
+
 
 /*COLLAPSE TO DEPARTMENT LEVEL DATASET*/
 tostring dept_code, g(str_dept_code)
 tostring prov_code, g(str_prov_code)
 tostring year, g(str_year)
-gen bob=str_year+";"+str_dept_code+";"+dept+";"+str_prov_code+";"+prov+";"+dam
-collapse (mean) empnum=dept_empnum unempnum=dept_unempnum labforce=dept_laborforce emp_rt=dept_emp_rt unemp_rt=dept_unemp_rt elecnum=dept_elec_num elec_rt=dept_elec_rt rug=dept_tri dist=dept_dist wdist=dept_wdist litnum=dept_lit_num lit_rt=dept_lit_rt, by(bob)
+gen bob=str_year+";"+str_dept_code+";"+dept+";"+str_prov_code+";"+prov
+collapse (mean) empnum=dept_empnum unempnum=dept_unempnum labforce=dept_laborforce emp_rt=dept_emp_rt unemp_rt=dept_unemp_rt elecnum=dept_elec_num elec_rt=dept_elec_rt rug=dept_tri wedist=wdist litnum=dept_lit_num lit_rt=dept_lit_rt, by(bob)
+ren wedist wdist
 split bob, p(;)
 gen year=real(bob1)
 gen dept_code=real(bob2)
 ren bob3 dept
 gen prov_code=real(bob4)
 ren bob5 prov
-ren bob6 dam
 drop bob bob1 bob2 bob4
 reorder year dept dept_code prov prov_code emp_rt elec_rt rug wdist
 sort year dept_code prov_code
+drop if year==2005
+/*clean up a little bit.. some deptartments changed provinces over time.. set everything to the 1987 province*/
+replace prov_code=4 if dept_code==20
+replace prov_code=4 if dept_code==21
+replace prov_code=4 if dept_code==22
+replace prov_code=9 if dept_code==49
+replace prov_code=9 if dept_code==51
+replace prov_code=9 if dept_code==52
+replace prov="Sud" if prov_code==9
+replace prov="Extrême-Nord" if prov_code==4
+replace wdist=7.123825 if prov_code==4 & dept_code==20
+replace wdist=8.442981 if prov_code==4 & dept_code==21
+replace wdist=7.284924 if prov_code==4 & dept_code==22
+replace wdist=2.815083 if prov_code==9 & dept_code==49
+replace wdist=1.715515 if prov_code==9 & dept_code==51
+replace wdist=2.167633 if prov_code==9 & dept_code==52
 save "S:\CM Data\IPUMS\collapsed_ipumsi_00004.dta", replace
 
 /*regressions yo!*/
