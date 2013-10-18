@@ -202,7 +202,16 @@ replace wdist=7.284924 if prov_code==4 & dept_code==22
 replace wdist=2.815083 if prov_code==9 & dept_code==49
 replace wdist=1.715515 if prov_code==9 & dept_code==51
 replace wdist=2.167633 if prov_code==9 & dept_code==52
+gen t=1 /*create time-series time variable*/
+replace t=2 if year==1987
+/*split data between north and south grids...1 if in North, 0 if not.*/
+gen north=0
+replace north=1 if prov_code==1 /*Adamoua*/
+replace north=1 if prov_code==4 /*Extreme-Nord*/
+replace north=1 if prov_code==6 /*Nord*/
 save "S:\CM Data\IPUMS\collapsed_ipumsi_00004.dta", replace
+
+
 
 /*regressions yo!*/
 
