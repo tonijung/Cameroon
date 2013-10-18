@@ -196,12 +196,12 @@ replace prov_code=9 if dept_code==51
 replace prov_code=9 if dept_code==52
 replace prov="Sud" if prov_code==9
 replace prov="Extrême-Nord" if prov_code==4
-replace wdist=7.123825 if prov_code==4 & dept_code==20
-replace wdist=8.442981 if prov_code==4 & dept_code==21
-replace wdist=7.284924 if prov_code==4 & dept_code==22
-replace wdist=2.815083 if prov_code==9 & dept_code==49
-replace wdist=1.715515 if prov_code==9 & dept_code==51
-replace wdist=2.167633 if prov_code==9 & dept_code==52
+replace wdist=1.74126 if prov_code==4 & dept_code==20
+replace wdist=3.096437 if prov_code==4 & dept_code==21
+replace wdist=1.92667 if prov_code==4 & dept_code==22
+replace wdist=6.378081 if prov_code==9 & dept_code==49
+replace wdist=7.021911 if prov_code==9 & dept_code==51
+replace wdist=7.149556 if prov_code==9 & dept_code==52
 gen t=1 /*create time-series time variable*/
 replace t=2 if year==1987
 /*split data between north and south grids...1 if in North, 0 if not.*/
