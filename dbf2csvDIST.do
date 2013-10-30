@@ -317,3 +317,5 @@ replace ckey="Djohong;MbÃ©rÃ©;Adamaoua;301" if near_fid==301
 replace ckey="Mayo Hourna;BÃ©nouÃ©;Nord;302" if near_fid==302
 replace ckey="Garoua I;BÃ©nouÃ©;Nord;303" if near_fid==303
 save "S:\CM Data\distance\cmforet\distance_arrondi.dta", replace
+collapse (sum) wdist, by (ckey)
+save "S:\CM Data\distance\cmforet\wdistance_arrondi.dta"
