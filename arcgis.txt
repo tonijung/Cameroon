@@ -13,3 +13,8 @@ notes for the ArcGIS component
 ----Then sum by region
 (3) calculate the sum for all cells within a region of cellarea
 (4) divide the value obtained in (2) by the value obtained in (3) for each region
+
+
+Note when computing distance..
+(1) Take the subnational regional shapefile, use the tool Feature to Point to compute the centroid of each polygon. 
+(2) Use the Point Distance tool (http://help.arcgis.com/en/arcgisdesktop/10.0/help/index.html#//00080000001r000000).
