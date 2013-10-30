@@ -211,6 +211,13 @@ replace north=1 if prov_code==4 /*Extreme-Nord*/
 replace north=1 if prov_code==6 /*Nord*/
 save "S:\CM Data\IPUMS\collapsed_ipumsi_00004.dta", replace
 
+/*combine dta files for Arrondissement IVs*/
+clear
+use "S:\CM Data\ruggedness\tri_arron.dta" 
+merge 1:1 ckey using "S:\CM Data\distance\cmforet\wdistance_arrondi.dta"
+drop _merge
+reorder ckey
+save "S:\CM Data\arronIV.dta", replace
 
 
 /*regressions yo!*/
