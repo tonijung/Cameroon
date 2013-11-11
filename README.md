@@ -1,4 +1,4 @@
 Cameroon
 ========
 
-for senior paper on Cameroon
+scripts for Cameroon electrification and youth labor market outcomes paper.
