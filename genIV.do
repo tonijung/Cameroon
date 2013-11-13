@@ -614,12 +614,19 @@ replace rug=0.572627 if ikeya=="Mora;2402;Margui-Wandala;61;Nord;6"
 replace wdist=2.719242 if ikeya=="Meiganga;402;Adamaoua;60;Nord;6"
 replace wdist=2.781717 if ikeya=="Tibati;102;Adamaoua;60;Nord;6"
 replace wdist=0.8768443 if ikeya=="Guider;3202;Benoue;30;Nord;6"
-replace wdist=1.737355 if ikeya=="Maroua;3009;Benoue;30;Nord;6"
 replace wdist=1.158769 if ikeya=="Poli;3102;Benoue;30;Nord;6"
 replace wdist=1.599271 if ikeya=="Mokolo;2506;Margui-Wandala;61;Nord;6"
 replace wdist=2.150193 if ikeya=="Mora;2402;Margui-Wandala;61;Nord;6"
 
-
+/*
+/*add wdist for missing andron*/
+replace wdist=4.042868 if ikeya=="Meiganga;402;Adamaoua;60;Nord;6"
+replace wdist=2.97585 if ikeya=="Tibati;102;Adamaoua;60;Nord;6"
+replace wdist=5.711367 if ikeya=="Guider;3202;Benoue;30;Nord;6"
+replace wdist=4.094922 if ikeya=="Poli;3102;Benoue;30;Nord;6"
+replace wdist=6.379217 if ikeya=="Mokolo;2506;Margui-Wandala;61;Nord;6"
+replace wdist=6.981391 if ikeya=="Mora;2402;Margui-Wandala;61;Nord;6"
+*/
 
 save "S:\CM Data\arronIV.dta", replace
 
