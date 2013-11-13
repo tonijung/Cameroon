@@ -424,7 +424,7 @@ drop ikey str_arron_code str_arrongrp str_dept_code str_prov_code ikey8
 ren ikeya bob
 split bob, p(;)
 gen ikeya=bob1+";"+bob2+";"+bob4+";"+bob5+";"+bob6+";"+bob7
-drop bob1 bob2 bob3 bob4 bob5 bob6 bob7 bob
+drop bob1 bob2 bob3 bob4 bob5 bob6 bob7 bob arrongrp
 
 /*ADD IVs*/
 merge m:m ikeya using "S:\CM Data\arronIV.dta"
