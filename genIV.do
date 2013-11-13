@@ -592,5 +592,34 @@ split bob, p(;)
 gen ikeya=bob1+";"+bob2+";"+bob4+";"+bob5+";"+bob6+";"+bob7
 drop bob1 bob2 bob3 bob4 bob5 bob6 bob7 bob
 
+/*add missing nord arrondissements*/
+/* COPY N PASTE THIS DIRECTLY INTO THE BOTTOM OF THE DTA FILE
+Meiganga;402;Adamaoua;60;Nord;6
+Tibati;102;Adamaoua;60;Nord;6
+Guider;3202;Benoue;30;Nord;6
+Poli;3102;Benoue;30;Nord;6
+Mokolo;2506;Margui-Wandala;61;Nord;6
+Mora;2402;Margui-Wandala;61;Nord;6
+*/
+
+/*add rug for missing andron*/
+replace rug=0.262359 if ikeya=="Meiganga;402;Adamaoua;60;Nord;6"
+replace rug=0.268694 if ikeya=="Tibati;102;Adamaoua;60;Nord;6"
+replace rug=1.2337 if ikeya=="Guider;3202;Benoue;30;Nord;6"
+replace rug=1.15723 if ikeya=="Poli;3102;Benoue;30;Nord;6"
+replace rug=1.81232 if ikeya=="Mokolo;2506;Margui-Wandala;61;Nord;6"
+replace rug=0.572627 if ikeya=="Mora;2402;Margui-Wandala;61;Nord;6"
+
+/*add wdist for missing andron*/
+replace wdist=2.719242 if ikeya=="Meiganga;402;Adamaoua;60;Nord;6"
+replace wdist=2.781717 if ikeya=="Tibati;102;Adamaoua;60;Nord;6"
+replace wdist=0.8768443 if ikeya=="Guider;3202;Benoue;30;Nord;6"
+replace wdist=1.737355 if ikeya=="Maroua;3009;Benoue;30;Nord;6"
+replace wdist=1.158769 if ikeya=="Poli;3102;Benoue;30;Nord;6"
+replace wdist=1.599271 if ikeya=="Mokolo;2506;Margui-Wandala;61;Nord;6"
+replace wdist=2.150193 if ikeya=="Mora;2402;Margui-Wandala;61;Nord;6"
+
+
+
 save "S:\CM Data\arronIV.dta", replace
 
