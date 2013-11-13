@@ -1,4 +1,4 @@
-/*generate weighted distance to dam*/
+/*generate weighted distance to dam for Department*/
 
 /*gen wdist for lagdo dam*/
 use "S:\CM Data\distance\GADM\point_dist\GADM_03_department.dta" 
