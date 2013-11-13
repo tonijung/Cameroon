@@ -318,10 +318,12 @@ replace ckey="Mayo Hourna;BÃ©nouÃ©;Nord;302" if near_fid==302
 replace ckey="Garoua I;BÃ©nouÃ©;Nord;303" if near_fid==303
 save "S:\CM Data\distance\cmforet\distance_arrondi.dta", replace
 collapse (sum) wdist, by (ckey)
+ren ckey cmforetkey
 save "S:\CM Data\distance\cmforet\wdistance_arrondi.dta"
 
 
-
+/*OLD! DO NOT USE*/
+/*
 /*GENERATE IKEY*/
 /*generate ikey to correspond with ckey - force match*/
 replace ikey="Abong Mbang;Haut-Nyong;Est" if ckey=="Abong Mbang;Haut-Nyong;Est;278"
@@ -604,8 +606,7 @@ replace ikey="Penka-Michel or Bansoa;Menoua;Ouest" if ckey=="Penka-Michel;Menoua
 save "S:\CM Data\arronIV.dta", replace
 collapse (mean) tri wtri wdist, by (ikey)
 save "S:\CM Data\arronIVv2.dta", replace
-
-
+*/
 
 
 
