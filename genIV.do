@@ -583,4 +583,7 @@ replace ikeya="Yaounde I;1201;33;Mfoundi;12;Centre;2" if cmforetkey=="YaoundÃ©
 replace ikeya="Yaounde I;1201;33;Mfoundi;12;Centre;2" if cmforetkey=="YaoundÃ© VI;Mfoundi;Centre;185"
 replace ikeya="Yaounde I;1201;33;Mfoundi;12;Centre;2" if cmforetkey=="YaoundÃ© VII;Mfoundi;Centre;148"
 replace ikeya="Yokadouma;1601;45;Boumba et Ngoko;16;Est;3" if cmforetkey=="Yokadouma;Boumba-et-Ngoko;Est;284"
+
+collapse (mean) tri wdist, by(ikeya)
+
 save "S:\CM Data\arronIV.dta", replace
