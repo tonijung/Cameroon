@@ -145,7 +145,7 @@ replace north=1 if prov_code==4 /*Extreme-Nord*/
 replace north=1 if prov_code==6 /*Nord*/
 
 gen ikeya=arron+";"+str_arron_code+";"+str_arrongrp+";"+dept+";"+str_dept_code+";"+prov+";"+str_prov_code
-
+/*
 /*match each ipums key (no time) with a cameroun foret key*/
 gen cmforetkey="null"
 replace cmforetkey="Abong Mbang;Haut-Nyong;Est;278" if ikeya=="Abong Mbang;1602;46;Haut Nyong;17;Est;3"
@@ -417,11 +417,20 @@ replace cmforetkey="YaoundÃ© V;Mfoundi;Centre;182" if ikeya=="Yaounde I;1201;3
 replace cmforetkey="YaoundÃ© VI;Mfoundi;Centre;185" if ikeya=="Yaounde I;1201;33;Mfoundi;12;Centre;2"
 replace cmforetkey="YaoundÃ© VII;Mfoundi;Centre;148" if ikeya=="Yaounde I;1201;33;Mfoundi;12;Centre;2"
 replace cmforetkey="Yokadouma;Boumba-et-Ngoko;Est;284" if ikeya=="Yokadouma;1601;45;Boumba et Ngoko;16;Est;3"
+*/
+drop ikey str_arron_code str_arrongrp str_dept_code str_prov_code ikey8
+
+/*update ikeya to stop using arrongrp.. there are inconsistencies*/
+ren ikeya bob
+split bob, p(;)
+gen ikeya=bob1+";"+bob2+";"+bob4+";"+bob5+";"+bob6+";"+bob7
+drop bob1 bob2 bob3 bob4 bob5 bob6 bob7 bob
 
 /*ADD IVs*/
-merge m:m cmforetkey using "S:\CM Data\arronIV.dta"
+merge m:m ikeya using "S:\CM Data\arronIV.dta"
 drop _merge
-
-drop if cmforetkey=="null"
+drop if rug==.
+drop if t==.
 
 save "S:\CM Data\nov12.dta", replace
+
